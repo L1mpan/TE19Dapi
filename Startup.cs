@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using TE19Dapi.Services.StudentServices;
 
 namespace TE19Dapi
 {
@@ -32,6 +33,7 @@ namespace TE19Dapi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "TE19Dapi", Version = "v1" });
             });
+            services.AddScoped<IStudentService, StudentService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
