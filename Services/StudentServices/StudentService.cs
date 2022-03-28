@@ -12,37 +12,47 @@ namespace TE19Dapi.Services.StudentServices
             new Student() { Id = 2, Name = "Albert", classStudent = StudentClass.TE19D },
             new Student() { Id = 3, Name = "Jonas", classStudent = StudentClass.TE19D },
         };
+        private readonly DataContext _context;
+
+        public StudentService(DataContext context)
+        {
+            _context = context;
+        }
 
         public List<Student> AddStudent(Student newStudent)
         {
-            studentLista.Add(newStudent);
-            return studentLista;
+            _context.students.Add(newStudent);
+            _context.SaveChanges();
+            return _context.students.ToList();
         }
 
         public List<Student> GetStudentList()
         {
-            return studentLista;
+            return _context.students.ToList();
         }
 
         public List<Student> DeleteStudent(int id)
         {
-            var hittadStudent = studentLista.FirstOrDefault(student => student.Id == id);
+            var hittadStudent = _context.students.FirstOrDefault(student => student.Id == id);
 
-            studentLista.Remove(hittadStudent);
+            _context.students.Remove(hittadStudent);
+            _context.SaveChanges();
 
-            return studentLista;
+            return _context.students.ToList();
         }
 
         public List<Student> UpdateStudent(Student updateStudent)
         {
-            var hittadStudent = studentLista.FirstOrDefault(student => student.Id == updateStudent.Id);
+            var hittadStudent = _context.students.FirstOrDefault(student => student.Id == updateStudent.Id);
 
             if(hittadStudent != null) 
             {
                 hittadStudent.Name = updateStudent.Name;
                 hittadStudent.Age = updateStudent.Age;
             }
-            return studentLista;
+
+            _context.SaveChanges();
+            return _context.students.ToList();
         }
     }
 }
